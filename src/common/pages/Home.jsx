@@ -6,7 +6,7 @@ import { FaHeart } from "react-icons/fa";
 export default function Home() {
     return (
         <div>
-            <Header />
+            
             <section className='bg-white dark:bg-gray-900 pt-[100px]'>
                 <div className='grid max-w-screen-xl px-4 py-8 mx-auto lg:gap-8 xl:gap-0 lg:py-16  grid-cols-2'>
                     <div className='w-[600px] mb-4 sm:text-4xl text-2xl font-extrabold tracking-tight leading-none md:text-5xl xl:text-6xl dark:text-white'>

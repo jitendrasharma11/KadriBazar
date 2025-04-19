@@ -1,7 +1,16 @@
-import React from 'react'
-import { Link } from 'react-router'
+import React, { useEffect } from 'react'
+import { Link, useLocation } from 'react-router'
 
 export default function Header() {
+
+  let {pathname}=useLocation()
+
+  useEffect(()=>{
+    window.scrollTo({
+      top:"0",
+    })
+  }),[pathname]
+  
   return (
     <header className='mannualshadow'>
 

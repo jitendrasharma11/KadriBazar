@@ -1,55 +1,174 @@
-import React from 'react'
-import Header from '../Header'
+import axios from 'axios'
+import React, { useEffect, useState } from 'react'
+import { Link } from 'react-router'
 
-export default function Products() {
+export default function Product() {
+
+  let [products, setProducts] = useState([])
+  let [category, setCategory] = useState([])
+  let [brand, setBrand] = useState([])
+
+  let [dropdown, setDropdown] = useState(false)
+  let [sorting, setSorting] = useState(null)
+  let [caregoryfillter, setCaregoryfillter] = useState([])
+  let [brandfillter, setBrandfillter] = useState([])
+  let [isLoading, setisLoading] = useState(false)
+  let [pricefilter, setpricefilter] = useState([null, null])
+
+
+
+
+
+  let getCategories = () => {
+    axios.get('https://wscubetech.co/ecommerce-api/categories.php')
+      .then((axiosRes) => axiosRes.data)
+      .then((finalRes) => {
+        setCategory(finalRes.data)
+
+      })
+
+  }
+
+
+  let getBrand = () => {
+    axios.get('https://wscubetech.co/ecommerce-api/brands.php')
+      .then((axiosRes) => axiosRes.data)
+      .then((finalRes) => {
+        setBrand(finalRes.data)
+
+      })
+
+  }
+
+  let getProducts = () => {
+    console.log(caregoryfillter)
+    setisLoading(true)
+
+    axios.get('https://wscubetech.co/ecommerce-api/products.php', {
+      params: {
+        page: 1,
+        limit: 20,
+        categories: caregoryfillter.join(","),
+        brands: brandfillter.join(","), //["ram","ravi","raj"]
+        price_from: pricefilter[0],
+        price_to: pricefilter[1],
+        discount_from: '',
+        discount_to: '',
+        rating: null,
+        sorting: sorting
+      }
+    })
+      .then((axiosRes) => axiosRes.data)
+      .then((finalRes) => {
+        setProducts(finalRes.data)
+        setisLoading(false)
+
+      })
+  }
+
+
+
+  let getmyCheckCategory = (event) => {
+
+    if (event.target.checked) {
+      if (!caregoryfillter.includes(event.target.value)) {
+        setCaregoryfillter([...caregoryfillter, event.target.value])
+      }
+    }
+    else {
+
+      let finalData = caregoryfillter.filter((v) => v != event.target.value)
+      setCaregoryfillter(finalData)
+
+    }
+
+
+  }
+
+
+  let getmyCheckBrand = (event) => {
+
+    if (event.target.checked) {
+      if (!brandfillter.includes(event.target.value)) {
+        setBrandfillter([...brandfillter, event.target.value])
+      }
+    }
+    else {
+
+      let finalData = brandfillter.filter((v) => v != event.target.value)
+      setBrandfillter(finalData)
+
+    }
+
+
+  }
+
+
+  useEffect(() => {
+    getCategories()
+    getBrand()
+  }, [])
+
+
+
+
+  useEffect(() => {
+    getProducts()
+  }, [sorting, caregoryfillter, brandfillter, pricefilter])
+
+
+
+
   return (
-    <div>
-      <Header />
-      <section className='py-20'>
-        <div className='grid grid-cols-[20%_80%] gap-5 my-5'>
-          <div>
-            <div className='border-[1px] border-[#ccc] h-[250px] p-5 overflow-y-scroll'>
-              <h3 className='uppercase font-bold'>categories</h3>
-              <ul>
-                <li className='p-2'> <input type="checkbox" /> Beauty</li>
-                <li className='p-2'> <input type="checkbox" /> Fragrances</li>
-                <li className='p-2'> <input type="checkbox" /> Furniture</li>
-                <li className='p-2'> <input type="checkbox" /> Groceries</li>
-                <li className='p-2'> <input type="checkbox" /> Home Decoration</li>
-                <li className='p-2'> <input type="checkbox" /> Kitchen Accessories</li>
-                <li className='p-2'> <input type="checkbox" /> Laptops</li>
-                <li className='p-2'> <input type="checkbox" /> Mens Shirts</li>
-                <li className='p-2'> <input type="checkbox" /> Mens Shoes</li>
-                <li className='p-2'> <input type="checkbox" /> Mens Watches</li>
-                <li className='p-2'> <input type="checkbox" /> Mobile Accessories</li>
-              </ul>
-            </div>
-            <div className='border-[1px] border-[#ccc] h-[250px] p-5 overflow-y-scroll'>
-              <h3 className='uppercase font-bold'>BRAND</h3>
-              <ul>
-                <li className='p-2'> <input type="checkbox" /> Essence</li>
-                <li className='p-2'> <input type="checkbox" /> Glamour Beauty</li>
-                <li className='p-2'> <input type="checkbox" /> Velvet Touch</li>
-                <li className='p-2'> <input type="checkbox" /> Chic Cosmetics</li>
-                <li className='p-2'> <input type="checkbox" /> Nail Couture</li>
-                <li className='p-2'> <input type="checkbox" /> Calvin Klein</li>
-                <li className='p-2'> <input type="checkbox" /> Chanel</li>
-                <li className='p-2'> <input type="checkbox" /> Gucci</li>
-                <li className='p-2'> <input type="checkbox" /> Annibale Colombo</li>
-                <li className='p-2'> <input type="checkbox" /> Furniture Co.</li>
-                <li className='p-2'> <input type="checkbox" /> Knoll</li>
-              </ul>
-            </div>
-            <div className='border-[1px] border-[#ccc] h-[250px] p-5'>
-              <h3 className='uppercase font-bold'>PRICE</h3>
-              <ul>
-                <li className='p-2'> <input type="checkbox" /> Rs. 10 to Rs. 250</li>
-                <li className='p-2'> <input type="checkbox" /> Rs. 250 to Rs. 500</li>
-                <li className='p-2'> <input type="checkbox" /> Rs. 500 to Rs. 1000</li>
-                <li className='p-2'> <input type="checkbox" /> Rs. 1000 to Above</li>
-              </ul>
-            </div>
-            <div className='border-[1px] border-[#ccc] h-[250px] p-5'>
+    <div className='grid grid-cols-[20%_auto] gap-5 my-5'>
+      <div className='border-[1px] border-[#ccc]'>
+        <div className='p-3 border-[1px] border-[#ccc] h-[250px] overflow-y-scroll'>
+          <h3 className='font-bold'>Categories</h3>
+
+          <ul>
+            {category.map((items, index) => {
+              return (
+                <li className='p-2'>
+                  <input type="checkbox" onChange={getmyCheckCategory} value={items.slug} />
+                  {items.name} </li>
+              )
+            })}
+
+
+          </ul>
+
+        </div>
+        <div className='p-3 border-[1px] border-[#ccc] h-[250px] overflow-y-scroll'>
+          <h3 className='font-bold'>Brand</h3>
+
+          <ul>
+            <ul>
+              {brand.map((items, index) => {
+                return (
+                  <li className='p-2'>
+                    <input type="checkbox" onChange={getmyCheckBrand} value={items.slug} />  {items.name} </li>
+                )
+              })}
+
+
+            </ul>
+          </ul>
+
+        </div>
+        <div className='p-3 border-[1px] border-[#ccc] '>
+          <h3 className='font-bold'>PRICE
+          </h3>
+
+          <ul>
+            <li className='p-2'> <input type="radio" name='pricefilter' onClick={() => setpricefilter([10, 250])} />  Rs. 10 to Rs. 250 </li>
+            <li className='p-2'> <input type="radio" name='pricefilter' onClick={() => setpricefilter([250, 500])} />  Rs. 250 to Rs. 500 </li>
+            <li className='p-2'> <input type="radio" name='pricefilter' onClick={() => setpricefilter([500, 1000])} />  Rs. 500 to Rs. 1000 </li>
+            <li className='p-2'> <input type="radio" name='pricefilter' onClick={() => setpricefilter([1000, 50000])} />  Rs. 1000 to Above </li>
+
+          </ul>
+
+        </div>
+        <div className='border-[1px] border-[#ccc] h-[250px] p-5'>
               <h3 className='uppercase font-bold'>PRICE</h3>
               <ul>
                 <li className='p-2'> <input type="checkbox" /> 5% and above</li>
@@ -67,51 +186,149 @@ export default function Products() {
                 <li className='p-2'> <input type="checkbox" /> 1★ & above</li>
               </ul>
             </div>
+      </div>
+      <div>
+        <div className='flex justify-between items-center p-3 border-[1px] border-[#ccc]'>
+          <h3 className='font-bold text-2xl'>Products</h3>
+
+          <div className='relative'>
+            <button onClick={() => setDropdown(!dropdown)} id="multiLevelDropdownButton" data-dropdown-toggle="multi-dropdown" class="text-white bg-blue-700 cursor-pointer hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">Sort by : Recommended <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4" />
+            </svg>
+            </button>
+
+
+            <div id="multi-dropdown" class={`absolute top-[100%] z-10  bg-white divide-y divide-gray-100 rounded-lg shadow-sm w-44 dark:bg-gray-700 ${dropdown ? '' : 'hidden'} `}>
+              <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="multiLevelDropdownButton">
+                <li onClick={() => {
+                  setSorting(1)
+                  setDropdown(false)
+                }}>
+                  <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Name : A to Z</a>
+                </li>
+
+                <li onClick={() => {
+                  setSorting(2)
+                  setDropdown(false)
+                }}>
+                  <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Name : Z to A</a>
+                </li>
+                <li onClick={() => {
+                  setSorting(3)
+                  setDropdown(false)
+                }}>
+                  <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Price : Low to High</a>
+                </li>
+                <li onClick={() => {
+                  setSorting(4)
+                  setDropdown(false)
+                }}>
+                  <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Price : High to Low</a>
+                </li>
+                <li onClick={() => {
+                  setSorting(5)
+                  setDropdown(false)
+                }}>
+                  <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Discounted Price : Low to High</a>
+                </li>
+              </ul>
+            </div>
           </div>
-          <div className='grid grid-cols-4 gap-[20px]'>
-            <div className='border-[1px] border-[#ccc] rounded-[10px] p-[13px] h-[400px]'>
-              <img src="/images/thumbnail.png" alt="" />
-              <h4 className='font-bold'>Essence Mascara Lash Princess</h4>
-              <p className='text-[14px] mt-2.5'>the essence mascara lash princess is a popular mascara known for its</p>
-              <div className='flex gap-2 items-center mt-2.5'>
-              <h4 className='font-bold'>Rs.10</h4>
-              <p className='text-[12px]'>Rs. 10</p>
-              <p className='text-[12px] text-[#FF3F6C]'>(7)</p>
-              </div>
-            </div>
-            <div className='border-[1px] border-[#ccc] rounded-[10px] p-[13px] h-[400px]'>
-              <img src="/images/thumbnail (1).png" alt="" />
-              <h4 className='font-bold'>Eyeshadow Palette With Mirror</h4>
-              <p className='text-[14px] mt-2.5'>the eyeshadow palette with mirror offers a versatile range of eyeshadow</p>
-              <div className='flex gap-2 items-center mt-2.5'>
-              <h4 className='font-bold'>Rs.20</h4>
-              <p className='text-[12px]'>Rs. 20</p>
-              <p className='text-[12px] text-[#FF3F6C]'>(6)</p>
-              </div>
-            </div>
-            <div className='border-[1px] border-[#ccc] rounded-[10px] p-[13px] h-[400px]'>
-              <img src="/images/thumbnail (2).png" alt="" />
-              <h4 className='font-bold'>Powder Canister</h4>
-              <p className='text-[14px] mt-2.5'>the powder canister is a finely milled setting powder designed to set</p>
-              <div className='flex gap-2 items-center mt-2.5'>
-              <h4 className='font-bold'>Rs.15</h4>
-              <p className='text-[12px]'>Rs.15</p>
-              <p className='text-[12px] text-[#FF3F6C]'>(18)</p>
-              </div>
-            </div>
-            <div className='border-[1px] border-[#ccc] rounded-[10px] p-[13px] h-[400px]'>
-              <img src="/images/thumbnail (3).png" alt="" />
-              <h4 className='font-bold'>Red Lipstick</h4>
-              <p className='text-[14px] mt-2.5'>the red lipstick is a classic and bold choice for adding a pop of color to</p>
-              <div className='flex gap-2 items-center mt-2.5'>
-              <h4 className='font-bold'>Rs.13</h4>
-              <p className='text-[12px]'>Rs.13</p>
-              <p className='text-[12px] text-[#FF3F6C]'>(19)</p>
-              </div>
-            </div>
-          </div>
+
         </div>
-      </section>
+        <div className='grid grid-cols-4 gap-5'>
+
+
+          {
+            isLoading ?
+
+              <>
+                <div class="mx-auto w-full max-w-sm rounded-md border border-blue-300 p-4">
+                  <div class="flex animate-pulse space-x-4">
+                    <div class="size-10 rounded-full bg-gray-200"></div>
+                    <div class="flex-1 space-y-6 py-1">
+                      <div class="h-2 rounded bg-gray-200"></div>
+                      <div class="space-y-3">
+                        <div class="grid grid-cols-3 gap-4">
+                          <div class="col-span-2 h-2 rounded bg-gray-200"></div>
+                          <div class="col-span-1 h-2 rounded bg-gray-200"></div>
+                        </div>
+                        <div class="h-2 rounded bg-gray-200"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="mx-auto w-full max-w-sm rounded-md border border-blue-300 p-4">
+                  <div class="flex animate-pulse space-x-4">
+                    <div class="size-10 rounded-full bg-gray-200"></div>
+                    <div class="flex-1 space-y-6 py-1">
+                      <div class="h-2 rounded bg-gray-200"></div>
+                      <div class="space-y-3">
+                        <div class="grid grid-cols-3 gap-4">
+                          <div class="col-span-2 h-2 rounded bg-gray-200"></div>
+                          <div class="col-span-1 h-2 rounded bg-gray-200"></div>
+                        </div>
+                        <div class="h-2 rounded bg-gray-200"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="mx-auto w-full max-w-sm rounded-md border border-blue-300 p-4">
+                  <div class="flex animate-pulse space-x-4">
+                    <div class="size-10 rounded-full bg-gray-200"></div>
+                    <div class="flex-1 space-y-6 py-1">
+                      <div class="h-2 rounded bg-gray-200"></div>
+                      <div class="space-y-3">
+                        <div class="grid grid-cols-3 gap-4">
+                          <div class="col-span-2 h-2 rounded bg-gray-200"></div>
+                          <div class="col-span-1 h-2 rounded bg-gray-200"></div>
+                        </div>
+                        <div class="h-2 rounded bg-gray-200"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="mx-auto w-full max-w-sm rounded-md border border-blue-300 p-4">
+                  <div class="flex animate-pulse space-x-4">
+                    <div class="size-10 rounded-full bg-gray-200"></div>
+                    <div class="flex-1 space-y-6 py-1">
+                      <div class="h-2 rounded bg-gray-200"></div>
+                      <div class="space-y-3">
+                        <div class="grid grid-cols-3 gap-4">
+                          <div class="col-span-2 h-2 rounded bg-gray-200"></div>
+                          <div class="col-span-1 h-2 rounded bg-gray-200"></div>
+                        </div>
+                        <div class="h-2 rounded bg-gray-200"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </>
+              :
+
+              products.map((items, index) => <ProductItems pdata={items} />)
+
+          }
+
+
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function ProductItems({ pdata }) {
+
+  let { id, name, image, price } = pdata
+  return (
+    <div className='shadow-xl'>
+      <img src={image} alt="" />
+      <div className='p-3'>
+        <Link to={`/product-details/${id}`} >
+          <h4 className='font-bold'>{name}</h4>
+          <h4 className='font-bold'>Rs {price}</h4>
+        </Link>
+      </div>
     </div>
   )
 }

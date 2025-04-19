@@ -5,7 +5,7 @@ import { FaArrowLeft } from "react-icons/fa6";
 export default function Cart() {
   return (
     <div>
-      <Header />
+      
       <section className='py-25'>
         <div className='max-w-[1400px] m-auto grid grid-cols-[70%_30%]  gap-[40px]'>
           <div>
