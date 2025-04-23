@@ -20,12 +20,14 @@ export default function Product() {
   let [pricefilter, setpricefilter] = useState([null, null])
   let [totalPage, setTotalpage] = useState(null)
   let [CurrentPage, setCurrentPage] = useState(1)
-  let [percentagefilter, setpercentagefilter] = useState([null, null])
-  let [rating, setrating] = useState([null, null])
+  let [percentagefilter, setpercentagefilter] = useState("")
+  let [rating, setrating] = useState("")
 
 
+  const [droppName,setDropName]=useState("Sort by : Recommended")
 
 
+   console.log(rating)
 
   let getCategories = () => {
     axios.get('https://wscubetech.co/ecommerce-api/categories.php')
@@ -60,9 +62,9 @@ export default function Product() {
         brands: brandfillter.join(","), //["ram","ravi","raj"]
         price_from: pricefilter[0],
         price_to: pricefilter[1],
-        discount_from: '',
-        discount_to: '',
-        rating: null,
+        discount_from: percentagefilter[0],
+        discount_to: percentagefilter[1],
+        rating: rating,
         sorting: sorting
       }
     })
@@ -189,10 +191,10 @@ export default function Product() {
         <div className='border-[1px] border-[#ccc] h-[250px] p-5'>
           <h3 className='uppercase font-bold'>Rating</h3>
           <ul>
-            <li className='p-2'> <input type="checkbox" name='rating' onClick={() => setrating([4, 10])} /> 4★ & above</li>
-            <li className='p-2'> <input type="checkbox" name='rating' onClick={() => setrating([3, 10])} /> 3★ & above</li>
-            <li className='p-2'> <input type="checkbox" name='rating' onClick={() => setrating([2, 10])} /> 2★ & above</li>
-            <li className='p-2'> <input type="checkbox" name='rating' onClick={() => setrating([1, 10])} /> 1★ & above</li>
+            <li className='p-2'> <input type="checkbox" name='rating' onClick={() => setrating(4)} /> 4★ & above</li>
+            <li className='p-2'> <input type="checkbox" name='rating' onClick={() => setrating(3)} /> 3★ & above</li>
+            <li className='p-2'> <input type="checkbox" name='rating' onClick={() => setrating(2)}/> 2★ & above</li>
+            <li className='p-2'> <input type="checkbox" name='rating' onClick={() => setrating(1)} /> 1★ & above</li>
           </ul>
         </div>
       </div>
@@ -201,7 +203,7 @@ export default function Product() {
           <h3 className='font-bold text-2xl'>Products</h3>
 
           <div className='relative'>
-            <button onClick={() => setDropdown(!dropdown)} id="multiLevelDropdownButton" data-dropdown-toggle="multi-dropdown" class="bg-transparent cursor-pointer font-medium  text-sm px-5 py-2.5 text-center inline-flex items-center outline-2" type="button">Sort by : Recommended <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+            <button onClick={() => setDropdown(!dropdown)} id="multiLevelDropdownButton" data-dropdown-toggle="multi-dropdown" class="bg-transparent cursor-pointer font-medium  text-sm px-5 py-2.5 text-center inline-flex items-center outline-2" type="button"> {droppName} <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
               <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4" />
             </svg>
             </button>
@@ -212,6 +214,7 @@ export default function Product() {
                 <li onClick={() => {
                   setSorting(1)
                   setDropdown(false)
+                  setDropName('Name : A to Z')
                 }}>
                   <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Name : A to Z</a>
                 </li>
@@ -219,24 +222,28 @@ export default function Product() {
                 <li onClick={() => {
                   setSorting(2)
                   setDropdown(false)
+                  setDropName('Name : Z to A')
                 }}>
                   <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Name : Z to A</a>
                 </li>
                 <li onClick={() => {
                   setSorting(3)
                   setDropdown(false)
+                  setDropName('Price : Low to High')
                 }}>
                   <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Price : Low to High</a>
                 </li>
                 <li onClick={() => {
                   setSorting(4)
                   setDropdown(false)
+                  setDropName('Price : High to Low')
                 }}>
                   <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Price : High to Low</a>
                 </li>
                 <li onClick={() => {
                   setSorting(5)
                   setDropdown(false)
+                  setDropName('Discounted Price : Low to High')
                 }}>
                   <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Discounted Price : Low to High</a>
                 </li>
