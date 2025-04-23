@@ -1,8 +1,10 @@
 import axios from 'axios'
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Link } from 'react-router'
 import ResponsivePagination from 'react-responsive-pagination';
 import 'react-responsive-pagination/themes/bootstrap.css';
+import { counterContext } from './Maincontext';
+import { ToastContainer, toast } from 'react-toastify';
 
 export default function Product() {
 
@@ -18,6 +20,8 @@ export default function Product() {
   let [pricefilter, setpricefilter] = useState([null, null])
   let [totalPage, setTotalpage] = useState(null)
   let [CurrentPage, setCurrentPage] = useState(1)
+  let [percentagefilter, setpercentagefilter] = useState([null, null])
+  let [rating, setrating] = useState([null, null])
 
 
 
@@ -119,7 +123,7 @@ export default function Product() {
 
   useEffect(() => {
     getProducts()
-  }, [sorting, caregoryfillter, brandfillter, pricefilter, CurrentPage])
+  }, [sorting, caregoryfillter, brandfillter, pricefilter, CurrentPage, percentagefilter, rating])
 
 
 
@@ -176,19 +180,19 @@ export default function Product() {
         <div className='border-[1px] border-[#ccc] h-[250px] p-5'>
           <h3 className='uppercase font-bold'>PRICE</h3>
           <ul>
-            <li className='p-2'> <input type="checkbox" /> 5% and above</li>
-            <li className='p-2'> <input type="checkbox" /> 10% and above</li>
-            <li className='p-2'> <input type="checkbox" /> 15% and above</li>
-            <li className='p-2'> <input type="checkbox" /> 20% and above</li>
+            <li className='p-2'> <input type="checkbox" name='percentagefilter' onClick={() => setpercentagefilter([5, 10])} /> 5% and above</li>
+            <li className='p-2'> <input type="checkbox" name='percentagefilter' onClick={() => setpercentagefilter([10, 15])} /> 10% and above</li>
+            <li className='p-2'> <input type="checkbox" name='percentagefilter' onClick={() => setpercentagefilter([15, 20])} /> 15% and above</li>
+            <li className='p-2'> <input type="checkbox" name='percentagefilter' onClick={() => setpercentagefilter([20, 30])} /> 20% and above</li>
           </ul>
         </div>
         <div className='border-[1px] border-[#ccc] h-[250px] p-5'>
           <h3 className='uppercase font-bold'>Rating</h3>
           <ul>
-            <li className='p-2'> <input type="checkbox" /> 4★ & above</li>
-            <li className='p-2'> <input type="checkbox" /> 3★ & above</li>
-            <li className='p-2'> <input type="checkbox" /> 2★ & above</li>
-            <li className='p-2'> <input type="checkbox" /> 1★ & above</li>
+            <li className='p-2'> <input type="checkbox" name='rating' onClick={() => setrating([4, 10])} /> 4★ & above</li>
+            <li className='p-2'> <input type="checkbox" name='rating' onClick={() => setrating([3, 10])} /> 3★ & above</li>
+            <li className='p-2'> <input type="checkbox" name='rating' onClick={() => setrating([2, 10])} /> 2★ & above</li>
+            <li className='p-2'> <input type="checkbox" name='rating' onClick={() => setrating([1, 10])} /> 1★ & above</li>
           </ul>
         </div>
       </div>
@@ -568,13 +572,43 @@ export default function Product() {
           </div>
         </div>
       </div>
+      <ToastContainer />
     </div>
   )
 }
 
 function ProductItems({ pdata }) {
 
+  let { cart, setCart } = useContext(counterContext)
+
   let { id, name, image, price, discount_percentage, rating } = pdata
+
+  let adtoCart = () => {
+
+
+
+    let cartObj = {
+      name,
+      id,
+      image,
+      price,
+      qty: 1
+    }
+    setCart([...cart, cartObj])
+    toast.success("Your Item Seved in Cart !")
+  }
+
+  let removeCart=()=>{
+    if(confirm("Are you Sure Want to Delete Item in Cart")){
+       let finalData=cart.filter((items)=>items.id!=id)
+      
+       setCart(finalData)
+       toast.success("Your Item Deleted in Cart !")
+    }
+   
+}
+
+  let checkmyProductinCart = cart.filter((items) => items.id == id)
   return (
     <div className='shadow-xl pb-5'>
       <img src={image} alt="" />
@@ -588,9 +622,16 @@ function ProductItems({ pdata }) {
           </div>
 
         </Link>
-        <button className='bg-blue-700 text-white py-2 px-4 rounded-[10px] mt-3 hover:bg-blue-400'>
-          Add to Cart
-        </button>
+        {checkmyProductinCart.length == 1
+          ?
+          <button onClick={removeCart} className='bg-red-500 text-white py-2 px-4 rounded-[10px] mt-3 hover:bg-blue-400'>
+            Remove Cart
+          </button>
+          :
+          <button onClick={adtoCart} className='bg-blue-700 text-white py-2 px-4 rounded-[10px] mt-3 hover:bg-blue-400'>
+            Add to Cart
+          </button>
+        }
       </div>
     </div>
   )

@@ -1,9 +1,11 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import Header from '../Header'
 import { IoStar } from "react-icons/io5";
 import { FaHeart } from "react-icons/fa";
+import { counterContext } from './Maincontext';
 
 export default function Home() {
+    let { count, setCount } = useContext(counterContext)
     return (
         <div>
             
@@ -349,7 +351,7 @@ export default function Home() {
                         <img src="/images/thumbnail (15).png" alt="" />
                         <h4 className='font-bold'>Apple</h4>
                         <h3 className='font-bold text-[#B45309]'>Rs 1.99</h3>
-                
+
                         <div className='flex justify-between items-center'>
                             <div className='flex gap-[2px] text-[#EAB308] items-center'>
                                 <IoStar />
@@ -369,7 +371,7 @@ export default function Home() {
                         <img src="/images/thumbnail (16).png" alt="" />
                         <h4 className='font-bold'>Beef Steak</h4>
                         <h3 className='font-bold text-[#B45309]'>Rs 12.99</h3>
-                        
+
                         <div className='flex justify-between items-center'>
                             <div className='flex gap-[2px] text-[#EAB308] items-center'>
                                 <IoStar />
@@ -389,7 +391,7 @@ export default function Home() {
                         <img src="/images/thumbnail (17).png" alt="" />
                         <h4 className='font-bold'>Cat Food</h4>
                         <h3 className='font-bold text-[#B45309]'>Rs 8.99</h3>
-                        
+
                         <div className='flex justify-between items-center'>
                             <div className='flex gap-[2px] text-[#EAB308] items-center'>
                                 <IoStar />
@@ -409,7 +411,7 @@ export default function Home() {
                         <img src="/images/thumbnail (18).png" alt="" />
                         <h4 className='font-bold'>Chicken Meat</h4>
                         <h3 className='font-bold text-[#B45309]'>Rs 9.99</h3>
-                        
+
                         <div className='flex justify-between items-center'>
                             <div className='flex gap-[2px] text-[#EAB308] items-center'>
                                 <IoStar />
@@ -429,7 +431,7 @@ export default function Home() {
                         <img src="/images/thumbnail (19).png" alt="" />
                         <h4 className='font-bold'>Cooking Oil</h4>
                         <h3 className='font-bold text-[#B45309]'>Rs 4.99</h3>
-                        
+
                         <div className='flex justify-between items-center'>
                             <div className='flex gap-[2px] text-[#EAB308] items-center'>
                                 <IoStar />
@@ -449,7 +451,7 @@ export default function Home() {
                         <img src="/images/thumbnail (20).png" alt="" />
                         <h4 className='font-bold'>Cucumber</h4>
                         <h3 className='font-bold text-[#B45309]'>Rs 1.49</h3>
-                        
+
                         <div className='flex justify-between items-center'>
                             <div className='flex gap-[2px] text-[#EAB308] items-center'>
                                 <IoStar />
@@ -469,7 +471,7 @@ export default function Home() {
                         <img src="/images/thumbnail (21).png" alt="" />
                         <h4 className='font-bold'>Dog Food</h4>
                         <h3 className='font-bold text-[#B45309]'>Rs 10.99</h3>
-                        
+
                         <div className='flex justify-between items-center'>
                             <div className='flex gap-[2px] text-[#EAB308] items-center'>
                                 <IoStar />
@@ -489,7 +491,7 @@ export default function Home() {
                         <img src="/images/thumbnail (22).png" alt="" />
                         <h4 className='font-bold'>Eggs</h4>
                         <h3 className='font-bold text-[#B45309]'>Rs 2.99</h3>
-                        
+
                         <div className='flex justify-between items-center'>
                             <div className='flex gap-[2px] text-[#EAB308] items-center'>
                                 <IoStar />
@@ -509,7 +511,7 @@ export default function Home() {
                         <img src="/images/thumbnail (23).png" alt="" />
                         <h4 className='font-bold'>Fish Steak</h4>
                         <h3 className='font-bold text-[#B45309]'>Rs 14.99</h3>
-                        
+
                         <div className='flex justify-between items-center'>
                             <div className='flex gap-[2px] text-[#EAB308] items-center'>
                                 <IoStar />
@@ -529,7 +531,7 @@ export default function Home() {
                         <img src="/images/thumbnail (24).png" alt="" />
                         <h4 className='font-bold'>Green Bell Pepper</h4>
                         <h3 className='font-bold text-[#B45309]'>Rs 1.29</h3>
-                        
+
                         <div className='flex justify-between items-center'>
                             <div className='flex gap-[2px] text-[#EAB308] items-center'>
                                 <IoStar />
@@ -549,7 +551,7 @@ export default function Home() {
                         <img src="/images/thumbnail (25).png" alt="" />
                         <h4 className='font-bold'>Green Chili Pepper</h4>
                         <h3 className='font-bold text-[#B45309]'>Rs 0.99</h3>
-                        
+
                         <div className='flex justify-between items-center'>
                             <div className='flex gap-[2px] text-[#EAB308] items-center'>
                                 <IoStar />
@@ -569,7 +571,7 @@ export default function Home() {
                         <img src="/images/thumbnail (26).png" alt="" />
                         <h4 className='font-bold'>Honey Jar</h4>
                         <h3 className='font-bold text-[#B45309]'>Rs 6.99</h3>
-                        
+
                         <div className='flex justify-between items-center'>
                             <div className='flex gap-[2px] text-[#EAB308] items-center'>
                                 <IoStar />
@@ -589,7 +591,7 @@ export default function Home() {
                         <img src="/images/thumbnail (27).png" alt="" />
                         <h4 className='font-bold'>Ice Cream</h4>
                         <h3 className='font-bold text-[#B45309]'>Rs 6.99</h3>
-                        
+
                         <div className='flex justify-between items-center'>
                             <div className='flex gap-[2px] text-[#EAB308] items-center'>
                                 <IoStar />
@@ -609,7 +611,7 @@ export default function Home() {
                         <img src="/images/thumbnail (28).png" alt="" />
                         <h4 className='font-bold'>Juice</h4>
                         <h3 className='font-bold text-[#B45309]'>Rs 3.99</h3>
-                        
+
                         <div className='flex justify-between items-center'>
                             <div className='flex gap-[2px] text-[#EAB308] items-center'>
                                 <IoStar />
@@ -629,7 +631,7 @@ export default function Home() {
                         <img src="/images/thumbnail (29).png" alt="" />
                         <h4 className='font-bold'>Kiwi</h4>
                         <h3 className='font-bold text-[#B45309]'>Rs 2.49</h3>
-                        
+
                         <div className='flex justify-between items-center'>
                             <div className='flex gap-[2px] text-[#EAB308] items-center'>
                                 <IoStar />

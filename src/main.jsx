@@ -10,23 +10,26 @@ import Home from './common/pages/Home.jsx'
 import Login from './common/pages/Login.jsx'
 import ProductDetails from './common/pages/ProductDetails.jsx'
 import PageNot from './common/pages/PageNot.jsx'
+import Maincontext from './common/pages/Maincontext.jsx'
 
 
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <BrowserRouter>
-      <Routes>
-        <Route path='/' element={<Mainlayout />}>
-          <Route path='/' element={<Home />} />
-          <Route path='/cart' element={<Cart />} />
-          <Route path='/register' element={<Register />} />
-          <Route path='/product' element={<Products />} />
-          <Route path='/login' element={<Login />} />
-          <Route path="/product-details/:pid" element={<ProductDetails />} />
-          <Route path='*' element={<PageNot/>}/>
-        </Route>
-      </Routes>
-    </BrowserRouter>
+    <Maincontext>
+      <BrowserRouter>
+        <Routes>
+          <Route path='/' element={<Mainlayout />}>
+            <Route path='/' element={<Home />} />
+            <Route path='/cart' element={<Cart />} />
+            <Route path='/register' element={<Register />} />
+            <Route path='/product' element={<Products />} />
+            <Route path='/login' element={<Login />} />
+            <Route path="/product-details/:pid" element={<ProductDetails />} />
+            <Route path='*' element={<PageNot />} />
+          </Route>
+        </Routes>
+      </BrowserRouter>
+    </Maincontext>
   </StrictMode>,
 )

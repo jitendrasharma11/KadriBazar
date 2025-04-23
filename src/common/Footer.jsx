@@ -1,7 +1,10 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Link } from 'react-router'
+import { counterContext } from './pages/Maincontext'
 
 export default function Footer() {
+
+    let {cart}=useContext(counterContext)
     return (
         <>
 
@@ -24,6 +27,9 @@ export default function Footer() {
                                     </li>
                                     <li>
                                         <Link to={"/product"}href="https://tailwindcss.com/" class="hover:underline">Products</Link>
+                                    </li>
+                                    <li>
+                                        <Link to={"/product"}href="https://tailwindcss.com/" class="hover:underline pt-4">Cart ({cart.length})</Link>
                                     </li>
                                 </ul>
                             </div>
