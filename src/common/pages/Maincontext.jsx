@@ -5,7 +5,7 @@ export let counterContext = createContext()
 export default function Maincontext({ children }) {
 
   let [count, setCount] = useState(1)
-  let [cart, setCart] = useState([])
+  let [cart, setCart] = useState(JSON.parse(localStorage.getItem("CART")) ?? [] )
 
   let obj = {
     count,
@@ -15,6 +15,7 @@ export default function Maincontext({ children }) {
   }
   useEffect(() => {
     console.log(cart)
+    localStorage.setItem("CART",JSON.stringify(cart))
   }, [cart])
 
   return (
