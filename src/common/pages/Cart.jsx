@@ -6,6 +6,14 @@ import 'react-toastify/dist/ReactToastify.css';
 export default function Cart() {
   let { cart } = useContext(counterContext);
 
+  let subtotal = 0;
+  cart.forEach((items) => {
+    subtotal += items.qty * items.price;
+  });
+
+  let deliveryCharge = 50;
+  let grandTotal = subtotal + deliveryCharge;
+
   return (
     <div className="min-h-screen bg-gray-100 p-8">
       <div className="max-w-6xl mx-auto bg-white shadow-md rounded-lg p-6 grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -41,7 +49,7 @@ export default function Cart() {
 
           <div className="flex justify-between mb-2">
             <span>Subtotal</span>
-            <span>Rs 1299</span>
+            <span>Rs {subtotal}</span>
           </div>
 
           <div className="flex justify-between mb-2">
@@ -51,7 +59,7 @@ export default function Cart() {
 
           <div className="flex justify-between font-bold text-lg mb-4">
             <span>Total</span>
-            <span>Rs 1349</span>
+            <span>Rs {grandTotal}</span>
           </div>
 
           <button className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition">
